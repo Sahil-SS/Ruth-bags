@@ -1,9 +1,24 @@
 "use client";
-import React, { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useMemo, useRef } from 'react';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { Search, SlidersHorizontal, X, Check } from 'lucide-react';
 
-// 1. DATA REMAINS THE SAME
+// --- STAGGERED REVEAL COMPONENT ---
+const FadeIn = ({ children, delay = 0 }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-50px" }}
+    transition={{ 
+      duration: 0.8, 
+      delay: delay, 
+      ease: [0.215, 0.61, 0.355, 1] 
+    }}
+  >
+    {children}
+  </motion.div>
+);
+
 const ALL_PRODUCTS = [
   { id: 1, name: "Atelier Tote", price: 420, cat: "Handbags", color: "#1a1a1a", colorName: "Black", img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800" },
   { id: 2, name: "Nomad Backpack", price: 580, cat: "Backpacks", color: "#bc9060", colorName: "Tan", img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800" },
@@ -28,7 +43,6 @@ const colors = [
   { name: "Olive", hex: "#4b5320" }
 ];
 
-// 2. MOVE THIS OUTSIDE THE MAIN COMPONENT
 const FilterLayout = ({ activePriceRange, setActivePriceRange, selectedColor, setSelectedColor }) => (
   <div className="space-y-12">
     <div>
@@ -71,6 +85,10 @@ const FilterLayout = ({ activePriceRange, setActivePriceRange, selectedColor, se
 );
 
 const ProductSection = () => {
+  const sectionRef = useRef(null);
+  // Detects if the section is in view. amount: 0.1 means if 10% of the section is visible.
+  const isInView = useInView(sectionRef, { amount: 0.1 });
+
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [activePriceRange, setActivePriceRange] = useState("All");
@@ -88,11 +106,10 @@ const ProductSection = () => {
     });
   }, [activeCategory, selectedColor, activePriceRange, searchQuery]);
 
-  // Props to pass to the layout
   const filterProps = { activePriceRange, setActivePriceRange, selectedColor, setSelectedColor };
 
   return (
-    <section className="bg-white min-h-screen px-4 md:px-12 py-20 relative">
+    <section ref={sectionRef} className="bg-white min-h-screen px-4 md:px-12 py-20 relative">
       <div className="max-w-[1440px] mx-auto">
         
         {/* Header */}
@@ -140,16 +157,28 @@ const ProductSection = () => {
           <div className="flex-1">
             <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-x-4 md:gap-x-10 gap-y-16">
               <AnimatePresence mode="popLayout">
-                {filteredProducts.map((p) => (
-                  <motion.div layout key={p.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="group">
-                    <div className="aspect-[4/5] bg-[#F9F9F7] mb-5 overflow-hidden border border-transparent group-hover:border-gray-100 transition-all">
-                      <img src={p.img} alt={p.name} className="w-full h-full object-cover mix-blend-multiply transition-transform duration-1000 group-hover:scale-110" />
-                    </div>
-                    <div className="px-1">
-                      <h4 className="text-[12px] md:text-base font-serif italic text-gray-900 leading-tight">{p.name}</h4>
-                      <p className="text-[10px] text-gray-400 uppercase tracking-widest mt-2 font-sans">${p.price}</p>
-                    </div>
-                  </motion.div>
+                {filteredProducts.map((p, index) => (
+                  <FadeIn key={p.id} delay={index * 0.05}>
+                    <motion.div 
+                      layout 
+                      initial={{ opacity: 0 }} 
+                      animate={{ opacity: 1 }} 
+                      exit={{ opacity: 0 }} 
+                      className="group"
+                    >
+                      <div className="aspect-[4/5] bg-[#F9F9F7] mb-5 overflow-hidden border border-transparent group-hover:border-gray-100 transition-all">
+                        <img 
+                          src={p.img} 
+                          alt={p.name} 
+                          className="w-full h-full object-cover mix-blend-multiply transition-transform duration-1000 group-hover:scale-110" 
+                        />
+                      </div>
+                      <div className="px-1">
+                        <h4 className="text-[12px] md:text-base font-serif italic text-gray-900 leading-tight">{p.name}</h4>
+                        <p className="text-[10px] text-gray-400 uppercase tracking-widest mt-2 font-sans">${p.price}</p>
+                      </div>
+                    </motion.div>
+                  </FadeIn>
                 ))}
               </AnimatePresence>
             </div>
@@ -157,13 +186,20 @@ const ProductSection = () => {
         </div>
       </div>
 
-      {/* Floating Mobile Filter Button */}
-      <button 
-        onClick={() => setIsMobileFilterOpen(true)}
-        className="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-black text-white px-10 py-4 rounded-full text-[10px] uppercase tracking-[0.3em] font-bold flex items-center gap-3 shadow-xl font-sans"
-      >
-        <SlidersHorizontal size={14} /> Filter
-      </button>
+      {/* Floating Mobile Filter Button - Conditioned to Section Visibility */}
+      <AnimatePresence>
+        {isInView && (
+          <motion.button 
+            initial={{ opacity: 0, y: 50, x: "-50%" }}
+            animate={{ opacity: 1, y: 0, x: "-50%" }}
+            exit={{ opacity: 0, y: 50, x: "-50%" }}
+            onClick={() => setIsMobileFilterOpen(true)}
+            className="lg:hidden fixed bottom-6 left-1/2 z-50 bg-black text-white px-10 py-4 rounded-full text-[10px] uppercase tracking-[0.3em] font-bold flex items-center gap-3 shadow-xl font-sans"
+          >
+            <SlidersHorizontal size={14} /> Filter
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       {/* Mobile Overlay */}
       <AnimatePresence>
