@@ -12,7 +12,7 @@ const categories = [
 
 const CategoryCircular = () => {
   return (
-    <section className="py-12 md:py-20 px-4 bg-white">
+    <section className="mt-32 md:mt-40 py-12 md:py-20 px-4 bg-white">
       <div className="max-w-[1200px] mx-auto">
         {/* Changed 'overflow-x-auto' to 'flex-wrap' to ensure visibility on mobile */}
         <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-10 md:gap-16">
