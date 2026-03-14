@@ -1,66 +1,80 @@
 "use client";
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Instagram, Quote } from 'lucide-react';
+import { Instagram } from 'lucide-react';
 
-const GALLERY_IMAGES = [
-  { id: 1, url: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?q=80&w=1000", customer: "@elena_style", text: "Finally found a bag that matches my aesthetic and my workload.", size: "tall" },
-  { id: 2, url: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800", customer: "@markus.nomad", text: "The tan patina after 3 months of travel is just gorgeous.", size: "square" },
-  { id: 3, url: "https://images.unsplash.com/photo-1627123424574-724758594e93?q=80&w=800", customer: "@sasha_office", text: "Sustainable leather that actually feels like luxury.", size: "wide" },
-  { id: 4, url: "https://images.unsplash.com/photo-1547949003-9792a18a2601?q=80&w=800", customer: "@julian_vows", text: "The craftsmanship is visible in every single stitch.", size: "square" },
-  { id: 5, url: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=800", customer: "@travelwith_tm", text: "My go-to duffel for every weekend escape.", size: "tall" },
-  { id: 6, url: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800", customer: "@minimalist_jen", text: "The structure of the Atelier Tote is architecturally perfect.", size: "square" },
+const TESTIMONIALS = [
+  { id: 1, url: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?q=80&w=800", customer: "@elena_style", text: "Perfect for my aesthetic." },
+  { id: 2, url: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800", customer: "@markus.nomad", text: "The patina is gorgeous." },
+  { id: 3, url: "https://images.unsplash.com/photo-1627123424574-724758594e93?q=80&w=800", customer: "@sasha_office", text: "Luxury sustainable leather." },
+  { id: 4, url: "https://images.unsplash.com/photo-1547949003-9792a18a2601?q=80&w=800", customer: "@julian_vows", text: "Craftsmanship in every stitch." },
 ];
 
-const GalleryGrid = () => {
+const CompactGallery = () => {
   return (
-    <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6 p-4 md:p-8">
-      {GALLERY_IMAGES.map((img, i) => (
-        <motion.div
-          key={img.id}
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: i * 0.1, duration: 0.6 }}
-          viewport={{ once: true }}
-          className="relative group break-inside-avoid rounded-xl overflow-hidden cursor-crosshair bg-gray-50"
-        >
-          {/* Image */}
-          <img 
-            src={img.url} 
-            alt={img.customer} 
-            className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105" 
-          />
+    <section className="bg-white py-20 px-4 md:px-12 border-t border-gray-50">
+      {/* Container width matched to 1440px to align with FeaturedProduct */}
+      <div className="max-w-[1440px] mx-auto">
+        
+        {/* Header matched to FeaturedProduct style */}
+        <div className="mb-16 md:mb-24">
+          <span className="text-[9px] uppercase tracking-[0.4em] text-gray-400 font-sans block mb-2">
+            The Collective
+          </span>
+          <h2 className="text-3xl md:text-6xl font-serif italic text-gray-900 whitespace-nowrap">
+            In Good Company
+          </h2>
+        </div>
 
-          {/* Hover Overlay */}
-          <motion.div 
-            className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-between p-6"
-          >
-            <div className="flex justify-end">
-              <Instagram size={18} className="text-white/80" />
-            </div>
-
-            <div className="space-y-3">
-              <Quote size={24} className="text-white/40 fill-white/10" />
-              <p className="text-white text-sm md:text-base font-serif italic leading-relaxed">
-                {img.text}
-              </p>
-              <div className="pt-2 border-t border-white/20">
-                <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-white/90 font-sans">
-                  {img.customer}
-                </p>
+        {/* Grid logic: Same as products (2 mobile, 4 desktop) but with a stagger */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-16 md:gap-x-8 lg:gap-x-12">
+          {TESTIMONIALS.map((item, i) => (
+            <motion.div
+              key={item.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.05, duration: 0.7, ease: [0.215, 0.61, 0.355, 1] }}
+              viewport={{ once: true }}
+              /* The "Interesting" placement: Only on desktop, every other item is pushed down */
+              className={`flex flex-col ${i % 2 !== 0 ? 'lg:pt-20' : ''}`}
+            >
+              {/* Square Aspect Ratio to differentiate from Product's 3/4 ratio */}
+              <div className="relative aspect-square overflow-hidden bg-[#F9F9F7] mb-6 group cursor-crosshair">
+                <img 
+                  src={item.url} 
+                  alt={item.customer} 
+                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
+                />
+                
+                {/* Subtle Instagram Link Overlay */}
+                <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <div className="bg-white/90 p-3 rounded-full shadow-sm translate-y-2 group-hover:translate-y-0 transition-transform">
+                    <Instagram size={16} className="text-black" />
+                  </div>
+                </div>
               </div>
-            </div>
-          </motion.div>
 
-          {/* Mobile Caption (Shows always on mobile, hidden on desktop hover) */}
-          <div className="md:hidden p-4 bg-white border-t border-gray-100">
-             <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-1">{img.customer}</p>
-             <p className="text-xs italic text-gray-600 line-clamp-2">"{img.text}"</p>
-          </div>
-        </motion.div>
-      ))}
-    </div>
+              {/* Text: Compact and elegant */}
+              <div className="px-1">
+                <p className="text-[13px] md:text-[15px] font-serif italic text-gray-800 leading-snug mb-3">
+                  "{item.text}"
+                </p>
+                <div className="flex items-center gap-3">
+                  <div className="h-[1px] w-6 bg-gray-200" />
+                  <p className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 font-sans">
+                    {item.customer}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Adds bottom clearance for the staggered items on desktop */}
+        <div className="hidden lg:block h-20" />
+      </div>
+    </section>
   );
 };
 
-export default GalleryGrid;
+export default CompactGallery;

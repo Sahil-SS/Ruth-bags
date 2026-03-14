@@ -35,7 +35,7 @@ const ScrollToTop = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
           onClick={scrollToTop}
-          className="fixed bottom-10 right-6 md:right-12 z-[100] group flex flex-col items-center gap-2"
+          className="fixed bottom-12 right-6 md:right-12 z-[100] group flex flex-col items-center gap-2"
         >
           {/* The Icon Container */}
           <div className="w-12 h-12 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-sm group-hover:bg-black group-hover:border-black transition-all duration-500">

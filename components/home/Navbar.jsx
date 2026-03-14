@@ -7,7 +7,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="fixed top-0 w-full z-[100] font-serif bg-white">
+    <div className="fixed top-0 w-full z-100 font-serif bg-white">
       {/* 1. Rolling Banner */}
       <div className="w-full bg-[#0a0a0a] text-white py-2.5 overflow-hidden border-b border-white/10">
         <div className="flex whitespace-nowrap animate-marquee">
@@ -53,7 +53,7 @@ const Navbar = () => {
               <a href="#" className="text-[12px] uppercase tracking-[0.2em] font-medium hover:text-gray-400 transition-colors whitespace-nowrap">Journal</a>
               <a href="#" className="text-[12px] uppercase tracking-[0.2em] font-medium hover:text-gray-400 transition-colors whitespace-nowrap">Our Story</a>
             </div>
-            
+{/*             
             <div className="flex items-center space-x-6">
               <Search size={20} strokeWidth={1.2} className="cursor-pointer hover:opacity-50 transition-opacity" />
               <div className="relative cursor-pointer group">
@@ -62,7 +62,7 @@ const Navbar = () => {
                   0
                 </span>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </nav>
@@ -89,10 +89,10 @@ const Navbar = () => {
                   {item}
                 </motion.a>
               ))}
-              <div className="pt-8 border-t border-gray-50 flex justify-between font-sans">
+              {/* <div className="pt-8 border-t border-gray-50 flex justify-between font-sans">
                 <span className="text-[11px] tracking-[0.3em] uppercase text-gray-400 font-bold">Search</span>
                 <span className="text-[11px] tracking-[0.3em] uppercase text-gray-400 font-bold">My Account</span>
-              </div>
+              </div> */}
             </div>
           </motion.div>
         )}

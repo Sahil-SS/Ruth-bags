@@ -42,7 +42,7 @@ const Hero = () => {
   const currentContent = heroContent[currentIndex];
 
   return (
-    <section className="relative pt-32 md:pt-40 pb-16 px-6 overflow-hidden min-h-screen flex flex-col justify-center bg-white">
+    <section className="relative pt-10 md:pt-10 pb-16 px-6 overflow-hidden min-h-screen flex flex-col justify-center bg-white">
       {/* Subtle Background Pattern */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none">
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,_#000_1px,_transparent_1px)] bg-[length:40px_40px]" />

@@ -1,162 +1,92 @@
 "use client";
-import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
-
-/**
- * All images are from Unsplash — free under the Unsplash License
- * (free for commercial use, no attribution required)
- *
- * Left image:  Artisan hands stitching leather at a workbench
- *              → unsplash.com/photos/1552664-… by Amauri Mejía
- *
- * Right image: Structured tan leather tote on neutral background
- *              → unsplash.com/photos/5koG… by Ekaterina Shevchenko
- */
+import React from 'react';
+import { motion } from 'framer-motion';
 
 const FadeIn = ({ children, delay = 0, className = "" }) => (
   <motion.div
-    initial={{ opacity: 0, y: 24 }}
+    initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: "-60px" }}
-    transition={{ duration: 0.9, delay, ease: [0.215, 0.61, 0.355, 1] }}
+    transition={{ duration: 0.8, delay, ease: [0.215, 0.61, 0.355, 1] }}
     className={className}
   >
     {children}
   </motion.div>
 );
 
-const pillars = [
-  { number: "01", label: "Heritage" },
-  { number: "02", label: "Craft" },
-  { number: "03", label: "Utility" },
-];
-
 const Narrative = () => {
-  const sectionRef = useRef(null);
-  useInView(sectionRef, { once: true, amount: 0.15 });
-
   return (
-    <section ref={sectionRef} className="bg-[#FAF9F6] overflow-hidden py-20 md:py-32">
-      <div className="max-w-[1440px] mx-auto px-5 md:px-12">
-
-        {/* ── Section Label ── */}
-        <FadeIn>
-          <div className="flex items-center gap-4 mb-10 md:mb-16">
-            <span className="h-[1px] w-10 bg-gray-300 block" />
-            <span className="text-[10px] uppercase tracking-[0.35em] text-gray-400 font-sans font-medium">
-              Heritage &amp; Heart
+    <section className="bg-white py-20 md:py-32 px-4 md:px-12 border-t border-gray-50">
+      <div className="max-w-[1440px] mx-auto">
+        
+        {/* --- Section Header (Aligned with Product Section) --- */}
+        <FadeIn className="mb-16 md:mb-24">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="h-[1px] w-8 bg-black" />
+            <span className="text-[10px] uppercase tracking-[0.4em] text-gray-400 font-sans font-bold">
+              The Philosophy
             </span>
           </div>
+          <h2 className="text-3xl md:text-6xl font-serif italic text-gray-900 leading-[1.1]">
+            Heritage & <br className="hidden md:block" /> Architectural Craft
+          </h2>
         </FadeIn>
 
-        {/* ── Grid ── */}
-        <div className="flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-10 items-stretch">
-
-          {/* ── LEFT: Artisan hands at work ── */}
-          <FadeIn delay={0.1} className="lg:col-span-4 order-2 lg:order-1">
-            <div className="relative w-full aspect-[3/4] sm:aspect-[4/5] overflow-hidden bg-stone-100 group">
-              {/* Artisan hands stitching leather — Unsplash free license */}
+        {/* --- Content Grid --- */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+          
+          {/* LEFT: Large Storytelling Image (Artisan Hands) */}
+          <FadeIn delay={0.1} className="lg:col-span-7">
+            <div className="relative aspect-[4/5] md:aspect-[16/10] overflow-hidden bg-[#F9F9F7] group">
               <img
-                src="https://images.unsplash.com/photo-1622467827417-bbe2237067a9?q=80&w=800&auto=format&fit=crop"
-                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-[1.2s]"
-                alt="Artisan stitching leather by hand"
+                src="https://images.unsplash.com/photo-1622467827417-bbe2237067a9?q=80&w=1200"
+                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-[1.5s] ease-out"
+                alt="The craftsmanship process"
               />
-              {/* Corner accents */}
-              <div className="absolute top-4 left-4 w-10 h-10 border-t border-l border-white/30 pointer-events-none" />
-              <div className="absolute bottom-4 right-4 w-10 h-10 border-b border-r border-white/30 pointer-events-none" />
-              {/* Tag */}
-              <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm px-3 py-1">
-                <span className="text-[8px] uppercase tracking-[0.3em] text-white/70 font-sans">Process</span>
+              {/* Corner Badge - Minimalist */}
+              <div className="absolute top-0 left-0 bg-white p-4">
+                <span className="text-[9px] uppercase tracking-[0.3em] font-bold">Process // 01</span>
               </div>
             </div>
           </FadeIn>
 
-          {/* ── CENTER: Text content ── */}
-          <div className="lg:col-span-4 order-1 lg:order-2 flex flex-col justify-center py-4 lg:py-10 text-center lg:px-4">
-            <FadeIn delay={0.05}>
-              <h2 className="text-[clamp(2.6rem,10vw,5rem)] font-serif font-light italic leading-[0.92] mb-6 text-black">
-                Artistry<br />
-                in Every<br />
-                <span className="text-gray-300">Fiber.</span>
-              </h2>
-            </FadeIn>
-
+          {/* RIGHT: Descriptive Content */}
+          <div className="lg:col-span-5 space-y-10">
             <FadeIn delay={0.2}>
-              <p className="font-sans text-[11px] uppercase tracking-[0.22em] leading-loose text-gray-500 max-w-[260px] mx-auto mb-10">
-                Every alanKRit piece is a fusion of ancient textile wisdom and modern architectural utility.
+              <h3 className="text-xl md:text-2xl font-serif italic mb-6 leading-relaxed">
+                Every piece is a dialogue between ancient textile wisdom and modern utility.
+              </h3>
+              <p className="text-gray-500 text-sm md:text-base font-sans leading-relaxed tracking-wide">
+                We believe in "slow-made" luxury. Each alanKRit bag begins its journey at the hands of master artisans, 
+                utilizing sustainable fibers that are woven to last generations, not seasons.
               </p>
             </FadeIn>
 
-            {/* Pillars — horizontal on mobile */}
-            <FadeIn delay={0.3}>
-              <div className="flex gap-6 justify-center mb-10 overflow-x-auto no-scrollbar pb-1">
-                {pillars.map(({ number, label }) => (
-                  <div key={number} className="flex flex-col items-center gap-1 shrink-0">
-                    <span className="font-serif italic text-2xl text-gray-200">{number}</span>
-                    <span className="text-[9px] uppercase tracking-[0.3em] text-gray-400 font-sans">{label}</span>
-                  </div>
-                ))}
-              </div>
-            </FadeIn>
-
-            <FadeIn delay={0.4}>
-              <div className="flex justify-center">
-                <button className="group relative px-8 py-4 border border-black text-[10px] uppercase tracking-[0.3em] font-sans font-bold overflow-hidden w-full sm:w-auto">
-                  <span className="relative z-10 transition-colors duration-500 group-hover:text-white">
-                    The Atelier Story
-                  </span>
-                  <motion.div
-                    className="absolute inset-0 bg-black origin-left"
-                    initial={{ scaleX: 0 }}
-                    whileHover={{ scaleX: 1 }}
-                    transition={{ duration: 0.45 }}
-                  />
-                </button>
-              </div>
-            </FadeIn>
-          </div>
-
-          {/* ── RIGHT: Product image ── */}
-          <FadeIn delay={0.2} className="lg:col-span-4 order-3 flex flex-col gap-3">
-            <div className="relative aspect-square lg:aspect-[4/5] overflow-hidden bg-stone-50 group flex-1">
-              {/* Structured leather tan tote — Unsplash free license */}
-              <img
-                src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=800&auto=format&fit=crop"
-                className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110"
-                alt="The Ikkat Tote — structured leather bag"
-              />
-              <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-700" />
-
-              {/* Caption — always visible on mobile, revealed on hover for desktop */}
-              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/40 to-transparent lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500">
-                <p className="text-[8px] uppercase tracking-[0.4em] text-white/70 font-sans text-right">Archive No. 042</p>
-                <p className="text-[9px] uppercase tracking-[0.3em] text-white font-serif italic text-right">The Ikkat Tote</p>
-              </div>
-            </div>
-            <p className="hidden lg:block text-[8px] uppercase tracking-[0.4em] text-gray-400 font-sans text-right">
-              Archive No. 042 // The Ikkat Tote
-            </p>
-          </FadeIn>
-
-        </div>
-
-        {/* ── Marquee strip ── */}
-        <FadeIn delay={0.5}>
-          <div className="mt-16 md:mt-24 border-t border-gray-100 pt-8 overflow-hidden">
-            <motion.div
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{ duration: 28, ease: "linear", repeat: Infinity }}
-              className="flex gap-16 whitespace-nowrap w-max"
-            >
-              {Array(8).fill(null).map((_, i) => (
-                <span key={i} className="text-[10px] uppercase tracking-[0.4em] text-gray-300 font-sans shrink-0">
-                  Handcrafted&nbsp;&nbsp;·&nbsp;&nbsp;Sustainable&nbsp;&nbsp;·&nbsp;&nbsp;Timeless&nbsp;&nbsp;·&nbsp;&nbsp;alanKRit
-                </span>
+            {/* Pillar Grid - Minimalist 3-Column */}
+            <FadeIn delay={0.3} className="grid grid-cols-3 gap-4 pt-10 border-t border-gray-100">
+              {[
+                { n: "01", t: "Heritage" },
+                { n: "02", t: "Craft" },
+                { n: "03", t: "Utility" }
+              ].map((p) => (
+                <div key={p.n} className="space-y-2">
+                  <span className="text-xs font-serif italic text-gray-300 block">{p.n}</span>
+                  <span className="text-[10px] uppercase tracking-widest font-bold font-sans">{p.t}</span>
+                </div>
               ))}
-            </motion.div>
-          </div>
-        </FadeIn>
+            </FadeIn>
 
+            {/* CTA Button - Matched to your minimalist style */}
+            <FadeIn delay={0.4}>
+              <button className="group flex items-center gap-6 text-[10px] uppercase tracking-[0.4em] font-bold border-b border-black pb-2 hover:text-gray-400 hover:border-gray-200 transition-all">
+                The Atelier Story 
+                <motion.span animate={{ x: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 1.5 }}>
+                  →
+                </motion.span>
+              </button>
+            </FadeIn>
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -1,4 +1,6 @@
+import BlogPreview from '@/components/home/BlogPreview'
 import CategoryCircular from '@/components/home/Category'
+import FeaturedProduct from '@/components/home/FeaturedProduct'
 import Footer from '@/components/home/Footer'
 import GalleryGrid from '@/components/home/GalleryGrid'
 import Hero from '@/components/home/Hero'
@@ -14,9 +16,11 @@ const page = () => {
       <Navbar />
       <CategoryCircular />
       <Hero />
-      <ProductSection />
+      {/* <ProductSection /> */}
+      <FeaturedProduct />
       <GalleryGrid />
       <Narrative />
+      <BlogPreview />
       <Newsletter />
       <Footer />
     </>
