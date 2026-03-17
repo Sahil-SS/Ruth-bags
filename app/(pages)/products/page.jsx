@@ -3,6 +3,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, SlidersHorizontal, Check } from 'lucide-react';
+import Link from 'next/link';
 
 // --- ENRICHED PRODUCT DATABASE ---
 const PRODUCTS = [
@@ -131,32 +132,34 @@ const ProductArchiveContent = () => {
                   }}
                   className="grid grid-cols-2 lg:grid-cols-3 gap-x-6 md:gap-x-12 gap-y-16 md:gap-y-24"
                 >
-                  {filteredProducts.map((product) => (
-                    <motion.div 
-                      key={product.id}
-                      variants={{
-                        hidden: { opacity: 0, y: 30 },
-                        show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
-                      }}
-                      className="group cursor-pointer"
-                    >
-                      <div className="relative aspect-[3/4] bg-[#F9F9F7] overflow-hidden mb-6 md:mb-8">
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-700 z-10" />
-                        <motion.img 
-                          src={product.img} 
-                          className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-[1.5s] ease-out group-hover:scale-110" 
-                        />
-                      </div>
-                      <div className="space-y-4 px-1">
-                        <h3 className="text-xl md:text-2xl font-serif italic text-gray-900 lowercase leading-tight">{product.name}</h3>
-                        <div className="flex justify-between items-center">
-                          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-400 font-bold">{product.category}</p>
-                          <p className="text-sm md:text-lg font-sans font-light tracking-tighter text-gray-900">{product.price}</p>
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </motion.div>
+{filteredProducts.map((product) => (
+          /* ADD THE LINK WRAPPER HERE */
+          <Link href={`/order/${product.id}`} key={product.id} className="block group cursor-pointer">
+            <motion.div 
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
+              }}
+            >
+              {/* All your existing card content (image, h3, price, etc.) stays inside here */}
+              <div className="relative aspect-[3/4] bg-[#F9F9F7] overflow-hidden mb-6 md:mb-8">
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-700 z-10" />
+                <motion.img 
+                  src={product.img} 
+                  className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-[1.5s] ease-out group-hover:scale-110" 
+                />
+              </div>
+              <div className="space-y-4 px-1">
+                <h3 className="text-xl md:text-2xl font-serif italic text-gray-900 lowercase leading-tight">{product.name}</h3>
+                <div className="flex justify-between items-center">
+                  <p className="text-[10px] uppercase tracking-[0.3em] text-gray-400 font-bold">{product.category}</p>
+                  <p className="text-sm md:text-lg font-sans font-light tracking-tighter text-gray-900">{product.price}</p>
+                </div>
+              </div>
+            </motion.div>
+          </Link>
+        ))}
+      </motion.div>
               ) : (
                 <div className="h-[60vh] flex flex-col items-center justify-center">
                   <p className="font-serif italic text-3xl text-gray-300">No pieces found.</p>

@@ -1,6 +1,7 @@
 "use client";
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
+import Link from "next/link";
 
 const FadeIn = ({ children, delay = 0 }) => (
   <motion.div
@@ -14,13 +15,33 @@ const FadeIn = ({ children, delay = 0 }) => (
 );
 
 const FEATURED_PRODUCTS = [
-  { id: 1, name: "Atelier Tote", price: 420, img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800" },
-  { id: 2, name: "Nomad Backpack", price: 580, img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800" },
-  { id: 3, name: "Luna Crossbody", price: 190, img: "https://images.unsplash.com/photo-1547949003-9792a18a2601?q=80&w=800" },
-  { id: 4, name: "City Pouch", price: 95, img: "https://images.unsplash.com/photo-1627123424574-724758594e93?q=80&w=800" },
+  {
+    id: 1,
+    name: "Atelier Tote",
+    price: 420,
+    img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800",
+  },
+  {
+    id: 2,
+    name: "Nomad Backpack",
+    price: 580,
+    img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800",
+  },
+  {
+    id: 3,
+    name: "Luna Crossbody",
+    price: 190,
+    img: "https://images.unsplash.com/photo-1547949003-9792a18a2601?q=80&w=800",
+  },
+  {
+    id: 4,
+    name: "City Pouch",
+    price: 95,
+    img: "https://images.unsplash.com/photo-1627123424574-724758594e93?q=80&w=800",
+  },
 ];
 
-const FeaturedProduct= () => {
+const FeaturedProduct = () => {
   return (
     <section className="bg-white min-h-screen">
       {/* Compact Header */}
@@ -44,10 +65,10 @@ const FeaturedProduct= () => {
               <div className="group cursor-pointer">
                 {/* Reduced Image Size via Aspect Ratio and Grid */}
                 <div className="relative aspect-[3/4] bg-[#F9F9F7] overflow-hidden mb-4 border border-transparent group-hover:border-gray-100 transition-all">
-                  <img 
-                    src={product.img} 
-                    alt={product.name} 
-                    className="w-full h-full object-cover mix-blend-multiply transition-transform duration-700 group-hover:scale-105" 
+                  <img
+                    src={product.img}
+                    alt={product.name}
+                    className="w-full h-full object-cover mix-blend-multiply transition-transform duration-700 group-hover:scale-105"
                   />
                 </div>
 
@@ -67,11 +88,13 @@ const FeaturedProduct= () => {
       </div>
 
       {/* Minimal Footer */}
-      <div className="py-12 flex justify-center">
-        <button className="text-[10px] uppercase tracking-[0.3em] font-bold border-b border-black pb-1 hover:text-gray-500 hover:border-gray-500 transition-all">
-          View All
-        </button>
-      </div>
+      <Link href="/products">
+        <div className="py-12 flex justify-center">
+          <button className="text-[10px] uppercase tracking-[0.3em] font-bold border-b border-black pb-1 hover:text-gray-500 hover:border-gray-500 transition-all">
+            View All
+          </button>
+        </div>
+      </Link>
     </section>
   );
 };
