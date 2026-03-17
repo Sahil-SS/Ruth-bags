@@ -1,7 +1,8 @@
 "use client";
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingBag, Search, Menu, X } from 'lucide-react';
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ShoppingBag, Search, Menu, X } from "lucide-react";
+import Image from "next/image";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,8 +13,12 @@ const Navbar = () => {
       <div className="w-full bg-[#0a0a0a] text-white py-2.5 overflow-hidden border-b border-white/10">
         <div className="flex whitespace-nowrap animate-marquee">
           {[1, 2, 3, 4].map((i) => (
-            <span key={i} className="text-[10px] uppercase tracking-[0.3em] px-8 italic font-light font-sans">
-              Limited Edition Canvas Collection • Free Shipping Over $200 • Handcrafted in Italy 
+            <span
+              key={i}
+              className="text-[10px] uppercase tracking-[0.3em] px-8 italic font-light font-sans"
+            >
+              Limited Edition Canvas Collection • Free Shipping Over $200 •
+              Handcrafted in Italy
             </span>
           ))}
         </div>
@@ -22,38 +27,78 @@ const Navbar = () => {
       {/* 2. Main Navigation Bar */}
       <nav className="border-b border-gray-100 px-6 md:px-12 h-24 flex items-center">
         <div className="max-w-[1440px] mx-auto w-full grid grid-cols-3 items-center">
-          
           {/* LEFT: Links - Spread evenly on the left side */}
           <div className="flex items-center">
             {/* Hamburger for Mobile */}
-            <button onClick={() => setIsOpen(!isOpen)} className="md:hidden p-2 -ml-2">
-              {isOpen ? <X size={24} strokeWidth={1} /> : <Menu size={24} strokeWidth={1} />}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="md:hidden p-2 -ml-2"
+            >
+              {isOpen ? (
+                <X size={24} strokeWidth={1} />
+              ) : (
+                <Menu size={24} strokeWidth={1} />
+              )}
             </button>
 
             {/* Desktop Links - Left Aligned */}
             <div className="hidden md:flex space-x-12 justify-start ml-12">
-              <a href="#" className="text-[12px] uppercase tracking-[0.2em] font-medium hover:text-gray-400 transition-colors whitespace-nowrap">Shop All</a>
-              <a href="#" className="text-[12px] uppercase tracking-[0.2em] font-medium hover:text-gray-400 transition-colors whitespace-nowrap">New In</a>
+              <a
+                href="#"
+                className="text-[12px] uppercase tracking-[0.2em] font-medium hover:text-gray-400 transition-colors whitespace-nowrap"
+              >
+                Shop All
+              </a>
+              <a
+                href="#"
+                className="text-[12px] uppercase tracking-[0.2em] font-medium hover:text-gray-400 transition-colors whitespace-nowrap"
+              >
+                New In
+              </a>
             </div>
           </div>
 
           {/* CENTER: Logo - Absolute Center */}
-          <div className="flex flex-col items-center justify-center text-center">
-            <h1 className="text-2xl md:text-4xl font-light tracking-[0.15em] leading-none uppercase">
-              L'ARTISAN
-            </h1>
-            <span className="text-[8px] tracking-[0.5em] uppercase text-gray-400 mt-2 hidden md:block font-sans">
-              Atelier de Luxe
-            </span>
+          <div className="flex items-center justify-center gap-4 group cursor-pointer">
+            {/* Logo - Larger Horizontal Layout */}
+            <div className="relative w-16 h-16 md:w-24 md:h-24 shrink-0">
+              <Image
+                src="/logo.png"
+                alt="L'Artisan Logo"
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
+
+            {/* Text Column - Left Aligned to the Logo */}
+            <div className="flex flex-col border-l border-gray-100 pl-4 items-center justify-around">
+              <h1 className="text-2xl md:text-4xl font-light tracking-[0.15em] leading-none uppercase">
+                L'ARTISAN
+              </h1>
+              <span className="text-[8px] md:text-[10px] tracking-[0.5em] uppercase text-gray-400 mt-2 hidden md:block font-sans">
+                Atelier de Luxe
+              </span>
+            </div>
           </div>
 
           {/* RIGHT: Links + Icons - Spread evenly on the right side */}
           <div className="flex items-center justify-around">
             <div className="hidden md:flex space-x-12 mr-12">
-              <a href="#" className="text-[12px] uppercase tracking-[0.2em] font-medium hover:text-gray-400 transition-colors whitespace-nowrap">Journal</a>
-              <a href="#" className="text-[12px] uppercase tracking-[0.2em] font-medium hover:text-gray-400 transition-colors whitespace-nowrap">Our Story</a>
+              <a
+                href="#"
+                className="text-[12px] uppercase tracking-[0.2em] font-medium hover:text-gray-400 transition-colors whitespace-nowrap"
+              >
+                Journal
+              </a>
+              <a
+                href="#"
+                className="text-[12px] uppercase tracking-[0.2em] font-medium hover:text-gray-400 transition-colors whitespace-nowrap"
+              >
+                Our Story
+              </a>
             </div>
-{/*             
+            {/*             
             <div className="flex items-center space-x-6">
               <Search size={20} strokeWidth={1.2} className="cursor-pointer hover:opacity-50 transition-opacity" />
               <div className="relative cursor-pointer group">
@@ -77,13 +122,19 @@ const Navbar = () => {
             className="md:hidden bg-white border-b border-gray-100 overflow-hidden shadow-2xl"
           >
             <div className="flex flex-col p-8 space-y-8 bg-white">
-              {['New Arrivals', 'Backpacks', 'Tote Bags', 'Leather Goods', 'Our Story'].map((item, idx) => (
-                <motion.a 
+              {[
+                "New Arrivals",
+                "Backpacks",
+                "Tote Bags",
+                "Leather Goods",
+                "Our Story",
+              ].map((item, idx) => (
+                <motion.a
                   initial={{ x: -20, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
                   transition={{ delay: idx * 0.1 }}
-                  key={item} 
-                  href="#" 
+                  key={item}
+                  href="#"
                   className="text-3xl font-light italic tracking-tight text-gray-900"
                 >
                   {item}

@@ -8,6 +8,9 @@ import Narrative from '@/components/home/Narrative'
 import Navbar from '@/components/home/Navbar'
 import Newsletter from '@/components/home/Newsletter'
 import ProductSection from '@/components/home/ProductSection'
+import MobileNavbar from '@/components/ui/MobileNavbar'
+import ScrollToTop from '@/components/ui/ScrollToTop'
+import WhatsAppFloatingIcon from '@/components/ui/WhatsAppFloatingIcon'
 import React from 'react'
 
 const page = () => {
@@ -23,6 +26,10 @@ const page = () => {
       <BlogPreview />
       <Newsletter />
       <Footer />
+
+      <WhatsAppFloatingIcon />
+      <ScrollToTop />
+      <MobileNavbar />
     </>
   )
 }
