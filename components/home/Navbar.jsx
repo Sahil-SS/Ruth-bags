@@ -74,7 +74,7 @@ const Navbar = () => {
             {/* Text Column - Left Aligned to the Logo */}
             <div className="flex flex-col border-l border-gray-100 pl-4 items-center justify-around">
               <h1 className="text-2xl md:text-4xl font-light tracking-[0.15em] leading-none uppercase">
-                L'ARTISAN
+                Ruth Bags
               </h1>
               <span className="text-[8px] md:text-[10px] tracking-[0.5em] uppercase text-gray-400 mt-2 hidden md:block font-sans">
                 Atelier de Luxe

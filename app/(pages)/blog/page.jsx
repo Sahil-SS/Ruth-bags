@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowLeft, Clock, Share2 } from 'lucide-react';
+import Navbar from '@/components/home/Navbar';
 
 // --- DATA WITH FULL CONTENT ---
 const ALL_POSTS = [
@@ -57,6 +58,7 @@ const BlogPage = () => {
 
   return (
     <main className="bg-white min-h-screen pt-32 pb-24 relative">
+    <Navbar />
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
         
         {/* --- HEADER --- */}

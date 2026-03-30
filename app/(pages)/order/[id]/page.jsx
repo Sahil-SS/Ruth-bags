@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ShieldCheck, Truck, Heart, ShoppingBag, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import Navbar from '@/components/home/Navbar';
 
 const PRODUCTS = [
   { id: 1, name: "Atelier Handbag", category: "Handbags", price: "24,500", img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=1000" },
@@ -45,12 +46,13 @@ Please let me know the next steps for payment and shipping.`;
   };
 
   return (
-    <main className="min-h-screen bg-white">
-      <nav className="fixed top-8 left-8 z-50">
+    <main className="min-h-screen bg-white mt-20">
+    <Navbar />
+      {/* <nav className="fixed top-8 left-8 z-50">
         <Link href="/archive" className="flex items-center gap-2 text-[11px] uppercase tracking-[0.4em] font-bold text-gray-400 hover:text-black transition-colors">
           <ArrowLeft size={16} /> Return to Archive
         </Link>
-      </nav>
+      </nav> */}
 
       <div className="flex flex-col lg:flex-row max-w-[1800px] mx-auto">
         
@@ -75,7 +77,7 @@ Please let me know the next steps for payment and shipping.`;
           <div className="max-w-md w-full sticky top-24">
             <header className="mb-12">
               <div className="flex justify-between items-start mb-4">
-                <h1 className="text-5xl md:text-6xl font-serif italic lowercase tracking-tighter leading-tight">
+                <h1 className="text-5xl md:text-6xl font-serif italic tracking-tighter leading-tight">
                   {product.name}
                 </h1>
                 <Heart size={22} className="text-gray-300 hover:text-red-400 cursor-pointer mt-3 transition-colors" />
@@ -140,7 +142,7 @@ Please let me know the next steps for payment and shipping.`;
                   onClick={handleAcquisition}
                   className="w-full bg-black text-white py-7 rounded-full text-[12px] uppercase tracking-[0.5em] font-black shadow-2xl hover:bg-gray-900 transition-all flex items-center justify-center gap-4 active:scale-95"
                 >
-                  <ShoppingBag size={18} /> Begin Acquisition
+                  <ShoppingBag size={18} /> Wish to Buy
                 </button>
                 
                 <div className="flex justify-between items-center border-t border-gray-50 pt-8">

@@ -4,6 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, SlidersHorizontal, Check } from 'lucide-react';
 import Link from 'next/link';
+import Navbar from '@/components/home/Navbar';
 
 // --- ENRICHED PRODUCT DATABASE ---
 const PRODUCTS = [
@@ -54,7 +55,8 @@ const ProductArchiveContent = () => {
 
   return (
     <section className="bg-white min-h-screen pt-32 pb-32 overflow-x-hidden relative">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+    <Navbar />
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 mt-10">
         
         {/* --- DYNAMIC HEADER --- */}
         <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-gray-100 pb-12">
@@ -64,7 +66,7 @@ const ProductArchiveContent = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "circOut" }}
           >
-            <h1 className="text-7xl md:text-9xl font-serif italic text-black/90 lowercase tracking-tighter">
+            <h1 className="text-7xl md:text-9xl font-serif italic text-black/90 tracking-tighter">
               {selectedCategory === "All" ? "the archive." : `${selectedCategory}.`}
             </h1>
             <div className="flex items-center gap-4 mt-6">
@@ -150,7 +152,7 @@ const ProductArchiveContent = () => {
                 />
               </div>
               <div className="space-y-4 px-1">
-                <h3 className="text-xl md:text-2xl font-serif italic text-gray-900 lowercase leading-tight">{product.name}</h3>
+                <h3 className="text-xl md:text-2xl font-serif italic text-gray-900 leading-tight">{product.name}</h3>
                 <div className="flex justify-between items-center">
                   <p className="text-[10px] uppercase tracking-[0.3em] text-gray-400 font-bold">{product.category}</p>
                   <p className="text-sm md:text-lg font-sans font-light tracking-tighter text-gray-900">{product.price}</p>

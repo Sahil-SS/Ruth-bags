@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Cormorant_Garamond, Inter } from "next/font/google";
+import MobileNavbar from "@/components/ui/MobileNavbar";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -22,7 +23,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${cormorant.variable} ${inter.variable}`}>
       <body className="font-sans antialiased bg-white text-black">
-        <main className="min-h-screen pb-20 md:pb-0">{children}</main>
+        <main className="min-h-screen pb-20 md:pb-0">
+        {children}
+        <MobileNavbar />
+        </main>
       </body>
     </html>
   );

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
@@ -45,7 +46,7 @@ const FeaturedProduct = () => {
   return (
     <section className="bg-white min-h-screen">
       {/* Compact Header */}
-      <div className="px-6 md:px-12 pt-20 pb-12 max-w-[1440px] mx-auto text-center md:text-left">
+      <div className="px-6 md:px-12 pt-20 pb-12 max-w-360 mx-auto text-center md:text-left">
         <FadeIn>
           <span className="text-[9px] uppercase tracking-[0.4em] text-gray-400 font-sans block mb-2">
             Selection 01
@@ -58,19 +59,21 @@ const FeaturedProduct = () => {
       </div>
 
       {/* Optimized Grid: 2 columns on mobile, 4 columns on desktop */}
-      <div className="px-4 md:px-12 pb-20 max-w-[1440px] mx-auto">
+      <div className="px-4 md:px-12 pb-20 max-w-360 mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-10 md:gap-x-8">
           {FEATURED_PRODUCTS.map((product, index) => (
             <FadeIn key={product.id} delay={index * 0.05}>
               <div className="group cursor-pointer">
                 {/* Reduced Image Size via Aspect Ratio and Grid */}
-                <div className="relative aspect-[3/4] bg-[#F9F9F7] overflow-hidden mb-4 border border-transparent group-hover:border-gray-100 transition-all">
-                  <img
-                    src={product.img}
-                    alt={product.name}
-                    className="w-full h-full object-cover mix-blend-multiply transition-transform duration-700 group-hover:scale-105"
-                  />
-                </div>
+                <Link href="/products">
+                  <div className="relative aspect-3/4 bg-[#F9F9F7] overflow-hidden mb-4 border border-transparent group-hover:border-gray-100 transition-all">
+                    <img
+                      src={product.img}
+                      alt={product.name}
+                      className="w-full h-full object-cover mix-blend-multiply transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </div>
+                </Link>
 
                 {/* Compact Product Info */}
                 <div className="px-1">
@@ -89,7 +92,7 @@ const FeaturedProduct = () => {
 
       {/* Minimal Footer */}
       <Link href="/products">
-        <div className="py-12 flex justify-center">
+        <div className="flex justify-center">
           <button className="text-[10px] uppercase tracking-[0.3em] font-bold border-b border-black pb-1 hover:text-gray-500 hover:border-gray-500 transition-all">
             View All
           </button>

@@ -1,23 +1,43 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Instagram } from 'lucide-react';
+import React from "react";
+import { motion } from "framer-motion";
+import { Instagram } from "lucide-react";
 
 const TESTIMONIALS = [
-  { id: 1, url: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?q=80&w=800", customer: "@elena_style", text: "Perfect for my aesthetic." },
-  { id: 2, url: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800", customer: "@markus.nomad", text: "The patina is gorgeous." },
-  { id: 3, url: "https://images.unsplash.com/photo-1627123424574-724758594e93?q=80&w=800", customer: "@sasha_office", text: "Luxury sustainable leather." },
-  { id: 4, url: "https://images.unsplash.com/photo-1547949003-9792a18a2601?q=80&w=800", customer: "@julian_vows", text: "Craftsmanship in every stitch." },
+  {
+    id: 1,
+    url: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?q=80&w=800",
+    customer: "@elena_style",
+    text: "Perfect for my aesthetic.",
+  },
+  {
+    id: 2,
+    url: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800",
+    customer: "@markus.nomad",
+    text: "The patina is gorgeous.",
+  },
+  {
+    id: 3,
+    url: "https://images.unsplash.com/photo-1627123424574-724758594e93?q=80&w=800",
+    customer: "@sasha_office",
+    text: "Luxury sustainable leather.",
+  },
+  {
+    id: 4,
+    url: "https://images.unsplash.com/photo-1547949003-9792a18a2601?q=80&w=800",
+    customer: "@julian_vows",
+    text: "Craftsmanship in every stitch.",
+  },
 ];
 
 const CompactGallery = () => {
   return (
-    <section className="bg-white py-20 px-4 md:px-12 border-t border-gray-50">
+    <section className="bg-white pt-15 pb-2 px-4 md:px-12 border-t border-gray-50">
       {/* Container width matched to 1440px to align with FeaturedProduct */}
-      <div className="max-w-[1440px] mx-auto">
-        
+      <div className="max-w-360 mx-auto">
         {/* Header matched to FeaturedProduct style */}
-        <div className="mb-16 md:mb-24">
+        <div className="mb-16 md:mb-15">
           <span className="text-[9px] uppercase tracking-[0.4em] text-gray-400 font-sans block mb-2">
             The Collective
           </span>
@@ -33,19 +53,21 @@ const CompactGallery = () => {
               key={item.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05, duration: 0.7, ease: [0.215, 0.61, 0.355, 1] }}
+              transition={{
+                delay: i * 0.05,
+                duration: 0.7,
+                ease: [0.215, 0.61, 0.355, 1],
+              }}
               viewport={{ once: true }}
-              /* The "Interesting" placement: Only on desktop, every other item is pushed down */
-              className={`flex flex-col ${i % 2 !== 0 ? 'lg:pt-20' : ''}`}
+              className={`flex flex-col ${i % 2 !== 0 ? "lg:pt-20" : ""}`}
             >
-              {/* Square Aspect Ratio to differentiate from Product's 3/4 ratio */}
               <div className="relative aspect-square overflow-hidden bg-[#F9F9F7] mb-6 group cursor-crosshair">
-                <img 
-                  src={item.url} 
-                  alt={item.customer} 
-                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
+                <img
+                  src={item.url}
+                  alt={item.customer}
+                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                 />
-                
+
                 {/* Subtle Instagram Link Overlay */}
                 <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                   <div className="bg-white/90 p-3 rounded-full shadow-sm translate-y-2 group-hover:translate-y-0 transition-transform">
@@ -57,10 +79,10 @@ const CompactGallery = () => {
               {/* Text: Compact and elegant */}
               <div className="px-1">
                 <p className="text-[13px] md:text-[15px] font-serif italic text-gray-800 leading-snug mb-3">
-                  "{item.text}"
+                  &quot;{item.text}&quot;
                 </p>
                 <div className="flex items-center gap-3">
-                  <div className="h-[1px] w-6 bg-gray-200" />
+                  <div className="h-px w-6 bg-gray-200" />
                   <p className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 font-sans">
                     {item.customer}
                   </p>
