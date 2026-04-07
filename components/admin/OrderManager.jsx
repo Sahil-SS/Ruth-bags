@@ -1,206 +1,87 @@
 "use client";
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Package, Plus, X, Trash2, FileText, Clock } from 'lucide-react';
+import { Plus, X, Search, FileText, Trash2, MoreVertical } from 'lucide-react';
 import { AdminInput, AdminSelect } from './AdminFields';
 
 const OrderManager = ({ onGenerateInvoice }) => {
-  // --- STATE MANAGEMENT ---
   const [orders, setOrders] = useState([
-    { 
-      id: 'RH-4022', 
-      buyer: 'Siddharth M.', 
-      email: 'sid@example.com', 
-      product: 'Atelier Tote', 
-      price: '24,500', 
-      status: 'Packaging', 
-      date: 'March 17, 2026', 
-      size: 'Standard', 
-      color: 'Obsidian' 
-    }
+    { id: 'RH-4022', buyer: 'John Deo', email: 'john@example.com', product: 'Able Pro', price: '24,500', status: 'Pending', date: 'Jun, 26' },
+    { id: 'RH-4023', buyer: 'Jenifer Vintage', email: 'jen@example.com', product: 'Mashable', price: '12,000', status: 'Shipped', date: 'Mar, 31' }
   ]);
-
   const [showAddForm, setShowAddForm] = useState(false);
-  const [formData, setFormData] = useState({
-    buyer: '',
-    email: '',
-    product: '',
-    price: '',
-    size: 'Standard',
-    color: 'Obsidian'
-  });
-
-  // --- HANDLERS ---
-  const handleAddOrder = (e) => {
-    e.preventDefault();
-    
-    const newOrder = {
-      ...formData,
-      id: `RH-${Math.floor(1000 + Math.random() * 9000)}`, // Generates random ID
-      status: 'Packaging',
-      date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
-    };
-
-    setOrders([newOrder, ...orders]);
-    setShowAddForm(false);
-    // Reset form
-    setFormData({ buyer: '', email: '', product: '', price: '', size: 'Standard', color: 'Obsidian' });
-  };
-
-  const deleteOrder = (id) => {
-    setOrders(orders.filter(order => order.id !== id));
-  };
 
   return (
-    <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-12 pb-20">
-      
-      {/* --- HEADER --- */}
-      <div className="flex justify-between items-end border-b border-gray-100 pb-8">
-        <div>
-          <h2 className="text-5xl font-serif italic lowercase tracking-tight">order log.</h2>
-          <p className="text-[10px] text-gray-400 uppercase tracking-[0.3em] mt-4 font-bold">
-            Total Acquisitions: {orders.length}
-          </p>
-        </div>
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <h2 className="text-xl font-bold text-slate-800">Order Management</h2>
         <button 
           onClick={() => setShowAddForm(!showAddForm)}
-          className={`px-8 py-4 rounded-full text-[10px] uppercase tracking-widest font-black transition-all flex items-center gap-3 ${showAddForm ? 'bg-gray-100 text-black' : 'bg-black text-white shadow-xl'}`}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm font-bold flex items-center gap-2 transition-all"
         >
-          {showAddForm ? <X size={14}/> : <Plus size={14}/>}
-          {showAddForm ? "Cancel Entry" : "Manual Order Entry"}
+          {showAddForm ? <X size={16}/> : <Plus size={16}/>}
+          {showAddForm ? "Cancel" : "Add Order"}
         </button>
       </div>
 
-      {/* --- MANUAL ENTRY FORM --- */}
-      <AnimatePresence>
-        {showAddForm && (
-          <motion.div 
-            initial={{ height: 0, opacity: 0 }} 
-            animate={{ height: 'auto', opacity: 1 }} 
-            exit={{ height: 0, opacity: 0 }}
-            className="overflow-hidden"
-          >
-            <form onSubmit={handleAddOrder} className="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-sm mb-12 grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="space-y-6">
-                <AdminInput 
-                  label="Buyer Full Name" 
-                  placeholder="e.g. Elena Rossi" 
-                  onChange={(e) => setFormData({...formData, buyer: e.target.value})}
-                  required
-                />
-                <AdminInput 
-                  label="Contact Email" 
-                  placeholder="elena@example.com" 
-                  type="email"
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
-                  required
-                />
-                <div className="grid grid-cols-2 gap-4">
-                  <AdminInput 
-                    label="Product Name" 
-                    placeholder="e.g. Atelier Tote" 
-                    onChange={(e) => setFormData({...formData, product: e.target.value})}
-                    required
-                  />
-                  <AdminInput 
-                    label="Amount (INR)" 
-                    placeholder="24500" 
-                    onChange={(e) => setFormData({...formData, price: e.target.value})}
-                    required
-                  />
-                </div>
-              </div>
-              <div className="space-y-6">
-                <div className="grid grid-cols-2 gap-4">
-                  <AdminSelect 
-                    label="Dimensions" 
-                    options={['Small', 'Standard', 'Oversized']} 
-                    onChange={(e) => setFormData({...formData, size: e.target.value})}
-                  />
-                  <AdminSelect 
-                    label="Palette" 
-                    options={['Obsidian', 'Sienna', 'Bone', 'Sage']} 
-                    onChange={(e) => setFormData({...formData, color: e.target.value})}
-                  />
-                </div>
-                <div className="pt-4">
-                  <button type="submit" className="w-full bg-black text-white py-6 rounded-full text-[10px] uppercase tracking-[0.4em] font-black shadow-lg hover:bg-gray-900 transition-colors">
-                    Record Acquisition
-                  </button>
-                </div>
-              </div>
-            </form>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* --- ORDERS LIST --- */}
-      <div className="space-y-6">
-        {orders.map(order => (
-          <motion.div 
-            layout
-            key={order.id} 
-            className="bg-white p-8 rounded-[2.5rem] border border-gray-100 flex flex-col xl:flex-row xl:items-center justify-between gap-8 shadow-sm group hover:border-black/10 transition-colors"
-          >
-            <div className="flex gap-8 items-center">
-              <div className="w-16 h-16 bg-[#F9F9F7] rounded-2xl flex items-center justify-center text-black">
-                <Package size={24} />
-              </div>
-              <div>
-                <div className="flex items-center gap-4">
-                  <h3 className="font-serif text-2xl italic tracking-tighter">{order.buyer}</h3>
-                  <span className="text-[9px] bg-black text-white px-3 py-1 rounded font-black uppercase tracking-widest">{order.id}</span>
-                </div>
-                <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-2">
-                  <p className="text-[9px] uppercase tracking-widest text-gray-400 font-black">
-                    {order.product} • {order.color} • {order.size} • ₹{order.price}
-                  </p>
-                  <span className="text-[10px] text-gray-300 italic flex items-center gap-1">
-                    <Clock size={12}/> {order.date}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4">
-              {/* STATUS CONTROLS */}
-              <div className="flex gap-1 bg-gray-50 p-1.5 rounded-full">
-                {['Packaging', 'Shipping', 'Delivered'].map(s => (
-                  <button 
-                    key={s}
-                    className={`px-5 py-2.5 rounded-full text-[8px] uppercase font-black transition-all ${order.status === s ? 'bg-white text-black shadow-sm' : 'text-gray-300 hover:text-black'}`}
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
-
-              {/* ACTION: INVOICE GENERATOR */}
-              <button 
-                onClick={() => onGenerateInvoice(order)}
-                className="p-4 bg-gray-50 text-gray-400 hover:bg-black hover:text-white rounded-full transition-all shadow-sm"
-                title="Generate Invoice"
-              >
-                <FileText size={18} />
-              </button>
-              
-              <button 
-                onClick={() => deleteOrder(order.id)}
-                className="p-4 text-gray-200 hover:text-red-500 transition-colors"
-              >
-                <Trash2 size={18} />
-              </button>
-            </div>
-          </motion.div>
-        ))}
-
-        {orders.length === 0 && (
-          <div className="py-20 text-center border-2 border-dashed border-gray-100 rounded-[3rem]">
-            <p className="font-serif italic text-gray-300 text-2xl">No orders logged.</p>
+      {showAddForm && (
+        <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-md">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <AdminInput label="Customer Name" placeholder="Full name" />
+            <AdminInput label="Product" placeholder="Product name" />
+            <AdminInput label="Price" type="number" placeholder="0.00" />
           </div>
-        )}
+          <button className="mt-4 bg-blue-600 text-white px-6 py-2 rounded text-sm font-bold">Save Order</button>
+        </div>
+      )}
+
+      <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
+        <div className="p-4 border-b border-slate-100 flex items-center bg-slate-50/50">
+          <div className="relative flex-1 max-w-xs">
+            <Search className="absolute left-3 top-2.5 text-slate-400" size={16} />
+            <input type="text" placeholder="Search orders..." className="w-full pl-10 pr-4 py-2 text-xs border border-slate-300 rounded bg-white outline-none focus:border-blue-500" />
+          </div>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-left">
+            <thead>
+              <tr className="bg-slate-50 text-[11px] font-bold text-slate-500 uppercase tracking-wider border-b border-slate-200">
+                <th className="px-6 py-4">ID</th>
+                <th className="px-6 py-4">Customer</th>
+                <th className="px-6 py-4">Product</th>
+                <th className="px-6 py-4">Status</th>
+                <th className="px-6 py-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {orders.map(order => (
+                <tr key={order.id} className="hover:bg-slate-50 transition-colors text-sm text-slate-600">
+                  <td className="px-6 py-4 font-bold text-blue-600">{order.id}</td>
+                  <td className="px-6 py-4">
+                    <div className="font-bold text-slate-800">{order.buyer}</div>
+                    <div className="text-xs text-slate-400">{order.email}</div>
+                  </td>
+                  <td className="px-6 py-4">{order.product}</td>
+                  <td className="px-6 py-4">
+                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase ${
+                      order.status === 'Pending' ? 'bg-orange-100 text-orange-600' : 'bg-green-100 text-green-600'
+                    }`}>
+                      {order.status}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 text-right">
+                    <div className="flex justify-end gap-2">
+                      <button onClick={() => onGenerateInvoice(order)} className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded"><FileText size={18}/></button>
+                      <button className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded"><Trash2 size={18}/></button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

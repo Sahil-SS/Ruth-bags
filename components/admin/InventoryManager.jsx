@@ -1,78 +1,90 @@
 "use client";
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Plus, X, UploadCloud, Trash2, Power } from 'lucide-react';
+import { Plus, X, UploadCloud, Trash2, Edit, ExternalLink } from 'lucide-react';
 import { AdminInput, AdminTextArea, AdminSelect } from './AdminFields';
 
 const InventoryManager = () => {
   const [showAddForm, setShowAddForm] = useState(false);
 
   return (
-    <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-12">
-      <div className="flex justify-between items-end border-b border-gray-100 pb-8">
+    <div className="space-y-6">
+      <div className="flex justify-between items-center bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
         <div>
-          <h2 className="text-5xl font-serif italic lowercase tracking-tight">inventory.</h2>
-          <p className="text-[10px] text-gray-400 uppercase tracking-[0.3em] mt-4 font-bold">Manage Handcrafted Pieces</p>
+          <h2 className="text-lg font-bold text-slate-800">Product Inventory</h2>
+          <p className="text-xs text-slate-500">Manage your active digital and physical catalog</p>
         </div>
         <button 
           onClick={() => setShowAddForm(!showAddForm)}
-          className={`px-8 py-4 rounded-full text-[10px] uppercase tracking-widest font-black transition-all ${showAddForm ? 'bg-gray-100 text-black' : 'bg-black text-white shadow-xl'}`}
+          className={`flex items-center gap-2 px-4 py-2 rounded text-xs font-bold uppercase tracking-wider transition-all ${
+            showAddForm ? 'bg-slate-100 text-slate-600' : 'bg-blue-600 text-white hover:bg-blue-700 shadow-lg shadow-blue-200'
+          }`}
         >
-          {showAddForm ? <X size={16}/> : '+ Add New Creation'}
+          {showAddForm ? <X size={14}/> : <Plus size={14}/>} {showAddForm ? 'Close' : 'Add New Product'}
         </button>
       </div>
 
       {showAddForm && (
-        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} className="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-sm overflow-hidden">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-            <div className="space-y-6">
-              <AdminInput label="Product Name" placeholder="e.g. Atelier Tote" />
-              <div className="grid grid-cols-2 gap-4">
-                <AdminInput label="Price (INR)" placeholder="24500" type="number" />
-                <AdminSelect label="Category" options={['Handbags', 'Backpacks', 'Wallets', 'Rings', 'Travel']} />
+        <div className="bg-white rounded-lg border-t-4 border-blue-600 shadow-md overflow-hidden">
+          <div className="p-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="space-y-1">
+                <AdminInput label="Product Name" placeholder="Enter title" />
+                <div className="grid grid-cols-2 gap-4">
+                  <AdminInput label="Price (INR)" type="number" placeholder="0.00" />
+                  <AdminSelect label="Category" options={['Handbags', 'Jewelry', 'Accessories']} />
+                </div>
+                <AdminTextArea label="Description" placeholder="Technical specifications..." />
               </div>
-              <AdminTextArea label="The Story / Description" placeholder="Describe the materials and craft..." />
-            </div>
-            
-            <div className="space-y-6 flex flex-col">
-              <label className="text-[9px] uppercase tracking-[0.3em] font-black text-gray-400 ml-4">Imagery</label>
-              <div className="flex-1 border-2 border-dashed border-gray-100 rounded-[2rem] flex flex-col items-center justify-center p-12 group hover:border-black transition-colors cursor-pointer">
-                <UploadCloud className="text-gray-200 group-hover:text-black transition-colors mb-4" size={40} />
-                <p className="text-[10px] uppercase tracking-widest text-gray-400 group-hover:text-black">Drop high-res visuals here</p>
+              <div className="flex flex-col">
+                <label className="text-xs font-bold text-slate-600 uppercase mb-2">Media Assets</label>
+                <div className="flex-1 border-2 border-dashed border-slate-200 rounded-lg flex flex-col items-center justify-center p-6 bg-slate-50 hover:bg-white hover:border-blue-400 transition-all cursor-pointer">
+                  <UploadCloud size={32} className="text-slate-400 mb-2" />
+                  <span className="text-[11px] font-bold text-slate-600 uppercase">Drop Images Here</span>
+                </div>
+                <button className="mt-4 bg-blue-600 text-white py-3 rounded text-xs font-bold uppercase tracking-widest hover:bg-blue-700">Save to Database</button>
               </div>
-              <button className="w-full bg-black text-white py-6 rounded-full text-[10px] uppercase tracking-[0.4em] font-black">Publish Piece</button>
             </div>
           </div>
-        </motion.div>
+        </div>
       )}
 
-      {/* Simplified Table for viewing existing items */}
-      <div className="bg-white rounded-[2.5rem] border border-gray-100 overflow-hidden shadow-sm">
-        <div className="p-8 border-b border-gray-50 flex justify-between items-center bg-gray-50/50">
-          <span className="text-[10px] uppercase tracking-widest font-black">Active Archive</span>
-          <span className="text-[10px] text-gray-400 uppercase tracking-widest">16 Pieces Total</span>
+      {/* INVENTORY TABLE */}
+      <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
+        <div className="px-6 py-4 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
+          <span className="text-xs font-bold text-slate-600 uppercase">Master Archive</span>
+          <span className="text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded font-bold">168 ITEMS</span>
         </div>
-        <div className="divide-y divide-gray-50">
-          {[1, 2].map(i => (
-            <div key={i} className="p-8 flex items-center justify-between hover:bg-gray-50 transition-colors">
-              <div className="flex items-center gap-6">
-                <div className="w-12 h-16 bg-[#F9F9F7] rounded-lg" />
-                <div>
-                  <h4 className="font-serif italic text-xl lowercase">Atelier Bag</h4>
-                  <p className="text-[9px] uppercase tracking-widest text-gray-400 font-bold">₹24,500 • Handbags</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-8">
-                <button className="flex items-center gap-2 text-[9px] uppercase font-black text-green-600">
-                  <Power size={14} /> In Stock
-                </button>
-                <button className="text-gray-300 hover:text-red-500 transition-colors"><Trash2 size={18}/></button>
-              </div>
-            </div>
-          ))}
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead className="bg-slate-50 text-[11px] text-slate-500 uppercase font-bold border-b border-slate-200">
+              <tr>
+                <th className="px-6 py-4">Image</th>
+                <th className="px-6 py-4">Product Name</th>
+                <th className="px-6 py-4">Category</th>
+                <th className="px-6 py-4">Price</th>
+                <th className="px-6 py-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {[1, 2, 3].map(i => (
+                <tr key={i} className="hover:bg-slate-50 transition-colors">
+                  <td className="px-6 py-4"><div className="w-10 h-10 bg-slate-100 rounded border border-slate-200" /></td>
+                  <td className="px-6 py-4 font-bold text-slate-800 text-sm">Product Item #{i}</td>
+                  <td className="px-6 py-4 text-xs font-semibold text-slate-500">Accessories</td>
+                  <td className="px-6 py-4 text-sm font-bold">₹24,500</td>
+                  <td className="px-6 py-4 text-right">
+                    <div className="flex justify-end gap-2">
+                      <button className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded"><Edit size={16}/></button>
+                      <button className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded"><Trash2 size={16}/></button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

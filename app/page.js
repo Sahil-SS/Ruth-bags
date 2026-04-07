@@ -28,7 +28,7 @@ const page = () => {
       <Footer />
 
       <WhatsAppFloatingIcon />
-      <ScrollToTop />
+      {/* <ScrollToTop /> */}
       <MobileNavbar />
     </>
   )
