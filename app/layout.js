@@ -1,8 +1,6 @@
-"use client";
 import "./globals.css";
 import { Cormorant_Garamond, Inter } from "next/font/google";
-import { usePathname } from "next/navigation"; // Import this
-import MobileNavbar from "@/components/ui/MobileNavbar";
+import LayoutWrapper from "@/components/LayoutWrapper";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -16,21 +14,19 @@ const inter = Inter({
   variable: "--font-sans",
 });
 
+/* ✅ NOW THIS WORKS */
+export const metadata = {
+  title: "Ruth Bags",
+  description: "Luxury handcrafted bags",
+};
+
 export default function RootLayout({ children }) {
-  const pathname = usePathname();
-
-  // Check if the current path is the admin portal
-  const isAdminPage = pathname === "/ruth-bags";
-
   return (
     <html lang="en" className={`${cormorant.variable} ${inter.variable}`}>
       <body className="font-sans antialiased bg-white text-black">
-        <main className="min-h-screen pb-20 md:pb-0">
+        <LayoutWrapper>
           {children}
-          
-          {/* Only render MobileNavbar if we are NOT on the admin page */}
-          {!isAdminPage && <MobileNavbar />}
-        </main>
+        </LayoutWrapper>
       </body>
     </html>
   );

@@ -1,3 +1,4 @@
+import Banner from '@/components/home/Banner'
 import BlogPreview from '@/components/home/BlogPreview'
 import CategoryCircular from '@/components/home/Category'
 import FeaturedProduct from '@/components/home/FeaturedProduct'
@@ -17,8 +18,9 @@ const page = () => {
   return (
     <>
       <Navbar />
-      <CategoryCircular />
+      <Banner />
       <Hero />
+      <CategoryCircular />
       {/* <ProductSection /> */}
       <FeaturedProduct />
       <GalleryGrid />
