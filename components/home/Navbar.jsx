@@ -1,272 +1,297 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ShoppingBag,
-  Search,
   Menu,
   X,
   ChevronRight,
-  ChevronLeft,
+  Home,
+  ShoppingBag,
+  Search,
+  User,
+  MessageCircle,
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import ScrollingBanner from "./ScrollingBanner";
+
+const categories = [
+  { id: 1, name: "Handbags" },
+  { id: 2, name: "Backpacks" },
+  { id: 3, name: "Totes" },
+  { id: 4, name: "Wallets" },
+  { id: 8, name: "Travel" },
+];
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeView, setActiveView] = useState("main");
-  const [bannerIndex, setBannerIndex] = useState(0);
-  const [direction, setDirection] = useState(1);
+  const [showCategories, setShowCategories] = useState(false);
 
-  const bannerMessages = [
-    "Free Shipping Over ₹20,000",
-    "Spring / Summer 2026 Collection",
-    "Subscribe For Early Access",
-  ];
-
-  const bannerMessagesFull = [
-    "Limited Edition Canvas Collection • Free Shipping Over ₹20,000 • Handcrafted Luxury",
-    "New Season Arrivals • Explore The Spring / Summer 2026 Collection",
-    "Join The Atelier • Subscribe For Exclusive Updates & Early Access",
-  ];
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setDirection(1);
-      setBannerIndex((prev) => (prev + 1) % bannerMessages.length);
-    }, 4000);
-    return () => clearInterval(timer);
-  }, [bannerMessages.length]);
-
-  const nextBanner = () => {
-    setDirection(1);
-    setBannerIndex((prev) => (prev + 1) % bannerMessages.length);
-  };
-
-  const prevBanner = () => {
-    setDirection(-1);
-    setBannerIndex(
-      (prev) => (prev - 1 + bannerMessages.length) % bannerMessages.length,
-    );
-  };
-
+  // Prevent scrolling when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "unset";
   }, [isOpen]);
 
-  const categoryItems = [
-    {
-      name: "New Arrivals",
-      img: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=500",
-      slug: "New Arrivals",
-    },
-    {
-      name: "Backpacks",
-      img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=500",
-      slug: "Backpacks",
-    },
-    {
-      name: "Tote Bags",
-      img: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=500",
-      slug: "Totes",
-    },
-    {
-      name: "Baby Bags",
-      img: "https://images.unsplash.com/photo-1522338140262-f46f591261c8?q=80&w=500",
-      slug: "Baby Bags",
-    },
-    {
-      name: "School Bags",
-      img: "https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=500",
-      slug: "School Bags",
-    },
-  ];
-
-  const bannerVariants = {
-    enter: (direction) => ({
-      x: direction > 0 ? "100%" : "-100%",
-      opacity: 0,
-    }),
-    center: {
-      x: 0,
-      opacity: 1,
-    },
-    exit: (direction) => ({
-      x: direction < 0 ? "100%" : "-100%",
-      opacity: 0,
-    }),
-  };
+  // Reset category accordion when menu closes
+  useEffect(() => {
+    if (!isOpen) {
+      setTimeout(() => setShowCategories(false), 300);
+    }
+  }, [isOpen]);
 
   return (
-    <div className="fixed top-0 w-full z-100 font-serif bg-white">
-      {/* Banner */}
-      <div className="w-full bg-[#0a0a0a] text-white border-b border-white/10 relative flex justify-center items-center h-9 md:h-11 overflow-hidden">
-        {/* Mobile: minimal — no arrows, just the short message */}
-        <div className="flex md:hidden w-full justify-center items-center h-full overflow-hidden px-4">
-          <AnimatePresence custom={direction} mode="wait">
-            <motion.span
-              key={bannerIndex}
-              custom={direction}
-              variants={bannerVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ duration: 0.4 }}
-              className="text-[9px] uppercase tracking-[0.25em] text-center w-full"
-            >
-              {bannerMessages[bannerIndex]}
-            </motion.span>
-          </AnimatePresence>
-        </div>
+    <>
+      <div className="fixed top-0 w-full z-[100] bg-white">
+        {/* Top Banner */}
+        <ScrollingBanner />
 
-        {/* Desktop: full message with arrows */}
-        <div className="hidden md:flex w-full justify-center items-center h-full overflow-hidden">
-          <button
-            onClick={prevBanner}
-            className="absolute left-8 z-10 p-1 text-gray-400 hover:text-white"
-          >
-            <ChevronLeft size={14} />
-          </button>
-
-          <div className="w-full max-w-xl relative flex justify-center items-center h-full overflow-hidden">
-            <AnimatePresence custom={direction} mode="wait">
-              <motion.span
-                key={bannerIndex}
-                custom={direction}
-                variants={bannerVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ duration: 0.4 }}
-                className="text-[10px] uppercase tracking-[0.3em] px-6 text-center w-full"
+        {/* Main Navbar - Thinner & Symmetrical */}
+        <nav className="border-b border-gray-100 px-4 md:px-8 h-14 md:h-20 flex items-center bg-white w-full mb-4">
+          <div className="max-w-7xl mx-auto w-full flex items-center justify-between space-x-4 md:space-x-8">
+            {/* LEFT: Mobile Hamburger OR Desktop Links */}
+            <div className="flex md:hidden flex-1 justify-start">
+              <button
+                onClick={() => setIsOpen(true)}
+                className="p-1 -ml-1 text-gray-800 hover:text-black transition-colors"
               >
-                {bannerMessagesFull[bannerIndex]}
-              </motion.span>
-            </AnimatePresence>
-          </div>
+                <Menu size={24} strokeWidth={1.5} />
+              </button>
+            </div>
 
-          <button
-            onClick={nextBanner}
-            className="absolute right-8 z-10 p-1 text-gray-400 hover:text-white"
-          >
-            <ChevronRight size={14} />
-          </button>
-        </div>
-      </div>
-
-      {/* Navbar */}
-      <nav className="border-b border-gray-100 px-4 md:px-12 h-20 md:h-28 flex items-center bg-white">
-        <div className="max-w-360 mx-auto w-full relative flex items-center justify-center">
-
-          {/* LEFT — absolutely positioned */}
-          <div className="absolute left-0 flex items-center">
-            {/* Mobile hamburger */}
-            <button
-              onClick={() => {
-                setIsOpen(!isOpen);
-                setActiveView("main");
-              }}
-              className="md:hidden p-2 -ml-2"
-            >
-              {isOpen ? <X size={22} /> : <Menu size={22} />}
-            </button>
-
-            {/* Desktop nav links */}
-            <div className="hidden md:flex space-x-12">
+            {/* Desktop Left Links - Spaced equally */}
+            <div className="hidden md:flex flex-1 justify-end items-center gap-8 lg:gap-16 pr-8 lg:pr-12">
               <Link
                 href="/products"
-                className="text-[12px] uppercase tracking-[0.2em]"
+                className="text-[13px] font-sans uppercase tracking-[0.2em] text-gray-800 hover:text-black transition-colors whitespace-nowrap"
               >
                 Shop All
               </Link>
               <Link
                 href="/products?category=New Arrivals"
-                className="text-[12px] uppercase tracking-[0.2em]"
+                className="text-[13px] font-sans uppercase tracking-[0.2em] text-gray-800 hover:text-black transition-colors whitespace-nowrap"
               >
                 New In
               </Link>
             </div>
+
+            {/* CENTER: Logo */}
+            <Link
+              href="/"
+              className="flex flex-row items-center justify-center gap-3 shrink-0"
+            >
+              <div className="relative w-8 h-8 md:w-12 md:h-12 shrink-0">
+                <Image
+                  src="/logo.png"
+                  alt="Ruth Bags Logo"
+                  fill
+                  className="object-contain scale-110"
+                  priority
+                />
+              </div>
+
+              <div className="flex flex-col justify-center leading-none text-center">
+                <h1 className="text-xl md:text-2xl font-serif font-bold tracking-[0.15em] uppercase text-gray-900">
+                  Ruth Bags
+                </h1>
+                <span className="text-[6px] md:text-[8px] tracking-[0.4em] uppercase text-[#7A8A9E] font-sans mt-1">
+                  Atelier de Luxe
+                </span>
+              </div>
+            </Link>
+
+            {/* RIGHT: Empty space for mobile balance OR Desktop Links */}
+            <div className="flex md:hidden flex-1 justify-end">
+              {/* Keeping this empty to ensure the logo stays perfectly centered on mobile */}
+            </div>
+
+            {/* Desktop Right Links - Spaced equally */}
+            <div className="hidden md:flex flex-1 justify-start items-center gap-8 lg:gap-16 pl-8 lg:pl-12">
+              <Link
+                href="/collections"
+                className="text-[13px] font-sans uppercase tracking-[0.2em] text-gray-800 hover:text-black transition-colors whitespace-nowrap"
+              >
+                Collections
+              </Link>
+              <Link
+                href="/about"
+                className="text-[13px] font-sans uppercase tracking-[0.2em] text-gray-800 hover:text-black transition-colors whitespace-nowrap"
+              >
+                Atelier
+              </Link>
+            </div>
           </div>
+        </nav>
+      </div>
 
-          {/* CENTER LOGO — truly centered */}
-          <Link
-            href="/"
-            className="flex flex-row items-center justify-center gap-3 md:gap-5"
-          >
-            {/*
-              Logo is sized to visually match the brand name text height.
-              Mobile: brand name ~28px tall → logo 28px (w-7 h-7)
-              Desktop: brand name ~48px tall → logo 48px (w-12 h-12)
-            */}
-            <div className="relative w-10 h-10 sm:w-12 sm:h-12 md:w-20 md:h-20 shrink-0">
-              <Image
-                src="/logo.png"
-                alt="Ruth Bags Logo"
-                fill
-                className="object-contain scale-125"
-                priority
-              />
-            </div>
-
-            <div className="flex flex-col justify-center leading-none">
-              <h1 className="text-[1.6rem] sm:text-[1.9rem] md:text-[2.6rem] font-serif font-bold tracking-widest uppercase leading-none whitespace-nowrap">
-                Ruth Bags
-              </h1>
-              <span className="text-[7px] sm:text-[8px] md:text-[11px] tracking-[0.4em] uppercase text-[#7A8A9E] font-sans font-semibold mt-1 whitespace-nowrap">
-                Atelier de Luxe
-              </span>
-            </div>
-          </Link>
-
-          {/* RIGHT — absolutely positioned */}
-          <div className="absolute right-0 flex items-center space-x-4 md:space-x-6">
-            <Search className="hidden md:block cursor-pointer" size={20} />
-            <div className="relative">
-              <ShoppingBag size={20} />
-              <span className="absolute -top-2 -right-2 bg-black text-white text-[7px] w-4 h-4 rounded-full flex items-center justify-center">
-                0
-              </span>
-            </div>
-          </div>
-
-        </div>
-      </nav>
-
-      {/* Mobile Menu */}
+      {/* Mobile Slide-In Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ x: "-100%" }}
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
-            transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="fixed inset-0 top-[116px] bg-white z-90 md:hidden flex flex-col"
+            transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
+            className="fixed inset-0 bg-white z-[120] md:hidden flex flex-col pb-20" // padding bottom to clear the bottom bar
           >
-            <div className="flex-1 overflow-y-auto p-8">
+            {/* Mobile Menu Header */}
+            <div className="flex items-center justify-between px-4 h-14 border-b border-gray-100 shrink-0">
               <button
-                onClick={() => setActiveView("occasion")}
-                className="text-2xl py-6 border-b flex justify-between w-full"
+                onClick={() => setIsOpen(false)}
+                className="p-2 -ml-2 text-gray-600 hover:text-black"
               >
-                Shop By Category <ChevronRight />
+                <X size={24} strokeWidth={1.5} />
+              </button>
+              <div className="flex items-center gap-2">
+                <div className="relative w-6 h-6 shrink-0">
+                  <Image
+                    src="/logo.png"
+                    alt="Logo"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+                <div className="flex flex-col justify-center text-center">
+                  <h2 className="text-[14px] font-serif font-bold tracking-widest uppercase leading-none">
+                    Ruth Bags
+                  </h2>
+                  <span className="text-[5px] tracking-[0.3em] uppercase text-gray-500 mt-[2px]">
+                    Atelier de Luxe
+                  </span>
+                </div>
+              </div>
+              <div className="w-8"></div> {/* Spacer for perfect centering */}
+            </div>
+
+            {/* Mobile Menu Links */}
+            <div className="flex-1 overflow-y-auto font-sans">
+              {/* Accordion Toggle for Categories */}
+              <button
+                onClick={() => setShowCategories(!showCategories)}
+                className="flex justify-between items-center w-full px-6 py-5 border-b border-gray-200 text-left text-[15px] font-medium text-gray-800 hover:bg-gray-50 transition-colors"
+              >
+                Shop By Category
+                <motion.div
+                  animate={{ rotate: showCategories ? 90 : 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <ChevronRight
+                    size={18}
+                    strokeWidth={1.5}
+                    className="text-gray-400"
+                  />
+                </motion.div>
               </button>
 
-              {categoryItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={`/products?category=${item.slug}`}
-                  onClick={() => setIsOpen(false)}
-                  className="block py-6 border-b text-xl"
-                >
-                  {item.name}
-                </Link>
-              ))}
+              {/* Expandable Categories List */}
+              <AnimatePresence>
+                {showCategories && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    className="overflow-hidden bg-[#FAFAFA]"
+                  >
+                    <div className="flex flex-col border-b border-gray-200">
+                      {categories.map((cat) => (
+                        <Link
+                          key={cat.id}
+                          href={`/products?category=${cat.name}`}
+                          onClick={() => setIsOpen(false)}
+                          className="block px-10 py-4 border-b border-gray-100 last:border-b-0 text-[14px] text-gray-600 font-light tracking-wide hover:text-black transition-colors"
+                        >
+                          {cat.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Primary Nav Links */}
+              <Link
+                href="/products"
+                onClick={() => setIsOpen(false)}
+                className="block px-6 py-5 border-b border-gray-200 text-[15px] font-medium text-gray-800 hover:bg-gray-50 transition-colors"
+              >
+                Shop All
+              </Link>
+              <Link
+                href="/products?category=New Arrivals"
+                onClick={() => setIsOpen(false)}
+                className="block px-6 py-5 border-b border-gray-200 text-[15px] font-medium text-gray-800 hover:bg-gray-50 transition-colors"
+              >
+                New In
+              </Link>
+
+              {/* Remaining Nav Links */}
+              <Link
+                href="/collections"
+                onClick={() => setIsOpen(false)}
+                className="block px-6 py-5 border-b border-gray-200 text-[15px] font-medium text-gray-800 hover:bg-gray-50 transition-colors"
+              >
+                Collections
+              </Link>
+              <Link
+                href="/about"
+                onClick={() => setIsOpen(false)}
+                className="block px-6 py-5 border-b border-gray-200 text-[15px] font-medium text-gray-800 hover:bg-gray-50 transition-colors"
+              >
+                Atelier
+              </Link>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+
+      {/* Mobile Bottom Tab Bar */}
+      <div className="md:hidden fixed bottom-0 w-full bg-white border-t border-gray-200 flex justify-between items-center px-6 py-3 z-[90] pb-safe">
+        <Link
+          href="/"
+          className="flex flex-col items-center gap-1.5 text-gray-400 hover:text-gray-900 transition-colors"
+        >
+          <Home size={20} strokeWidth={1.5} />
+          <span className="text-[8px] font-sans font-medium tracking-wider uppercase">
+            Home
+          </span>
+        </Link>
+        <Link
+          href="/products"
+          className="flex flex-col items-center gap-1.5 text-gray-400 hover:text-gray-900 transition-colors"
+        >
+          <ShoppingBag size={20} strokeWidth={1.5} />
+          <span className="text-[8px] font-sans font-medium tracking-wider uppercase">
+            Shop
+          </span>
+        </Link>
+        <button className="flex flex-col items-center gap-1.5 text-gray-400 hover:text-gray-900 transition-colors">
+          <Search size={20} strokeWidth={1.5} />
+          <span className="text-[8px] font-sans font-medium tracking-wider uppercase">
+            Search
+          </span>
+        </button>
+        <Link
+          href="/account"
+          className="flex flex-col items-center gap-1.5 text-gray-400 hover:text-gray-900 transition-colors"
+        >
+          <User size={20} strokeWidth={1.5} />
+          <span className="text-[8px] font-sans font-medium tracking-wider uppercase">
+            Account
+          </span>
+        </Link>
+        <Link
+          href="https://wa.me/"
+          target="_blank"
+          className="flex flex-col items-center gap-1.5 text-[#25D366] hover:text-[#1ebe5c] transition-colors"
+        >
+          <MessageCircle size={20} strokeWidth={1.5} />
+          <span className="text-[8px] font-sans font-medium tracking-wider uppercase">
+            WhatsApp
+          </span>
+        </Link>
+      </div>
+    </>
   );
 };
 

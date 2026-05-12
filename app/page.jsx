@@ -18,8 +18,8 @@ const page = () => {
   return (
     <>
       <Navbar />
-      <Banner />
       <Hero />
+      <Banner />
       <CategoryCircular />
       {/* <ProductSection /> */}
       <FeaturedProduct />

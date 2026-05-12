@@ -94,7 +94,7 @@ const Banner = () => {
             className="absolute inset-0"
           >
             <img
-              src={slide.image}
+              src="/ruth1.png"
               alt={slide.tag}
               className="w-full h-full object-cover"
             />
